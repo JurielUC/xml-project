@@ -54,7 +54,7 @@
                     table += x[i].getElementsByTagName("AVAILABILITY")[0].childNodes[0].nodeValue;
                     table += "</td></tr>";
                 }
-                document.getElementById("demo").innerHTML = table; //submit content of demo to table
+                document.getElementById("demo").innerHTML = table;
 
                 var table = document.getElementById('demo'), rowidx;
 
@@ -70,6 +70,7 @@
                     };
                 }
 
+                // for update
                 function submitInput() {
                     var commonName = document.getElementById("plant_name").value;
                     var scientificName = document.getElementById("plant_scientific").value;
@@ -89,7 +90,6 @@
                       table.rows[rowidx].cells[4].innerHTML = price;
                       table.rows[rowidx].cells[5].innerHTML = availability;
 
-                      // Send updated data to server
                       var xhr = new XMLHttpRequest();
                       xhr.open("POST", "update_xml.php", true);
                       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -97,6 +97,7 @@
                     }
                 }
 
+                // for adding new data
                 function addNewPlant() {
                     var commonName = document.getElementById("plant_name").value;
                     var scientificName = document.getElementById("plant_scientific").value;
@@ -108,13 +109,12 @@
                     if (commonName === "" && scientificName === "" && zone === "" && light === "" && price === "" && availability === "") {
                       alert("All fields must be filled out to add a new plant.");
                     } else {
-                      // Send new plant data to server
                       var xhr = new XMLHttpRequest();
                       xhr.open("POST", "update_xml.php", true);
                       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                       xhr.onreadystatechange = function () {
                           if (xhr.readyState == 4 && xhr.status == 200) {
-                              // Reload the page after the request is complete
+
                               location.reload();
                           }
                       };
@@ -122,25 +122,24 @@
                     }
                 }
 
+                // for deleting data
                 function deletePlant() {
                     if (rowidx === undefined) {
                         alert("No plant selected to delete.");
                         return;
                     }
 
-                    // Send row index to server for deletion
                     var xhr = new XMLHttpRequest();
                     xhr.open("POST", "update_xml.php", true);
                     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState == 4 && xhr.status == 200) {
-                            // Reload the page after the request is complete
+ 
                             location.reload();
                         }
                     };
                     xhr.send("action=delete&row=" + rowidx);
 
-                    // Remove the row from the table
                     document.getElementById("demo").deleteRow(rowidx);
                 }
             </script>
