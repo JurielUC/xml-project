@@ -1,0 +1,138 @@
+/*fonts*/
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Playfair+Display:wght@600&display=swap');
+
+    body{
+    	background-color: #ffffff;
+    font-family:"Montserrat", sans-serif;
+    font-size: 14px;
+    }
+
+    th {
+
+      background-color: #384D0C;
+      color: white;
+
+    }
+
+    td {
+
+    	color: #2c3135;
+      background-color: #fcfcfc;
+    }
+
+    p {
+    	color: #2c3135;
+    	font-size: 14px;
+    }
+
+    table,th,td {
+      font-family:"Montserrat", sans-serif;
+      width: 100px;
+      border-radius: 10px;
+      border : 1px solid;
+      border-color: #ffffff;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    td:hover {
+     	background-color:  #7DAC66;
+     }
+
+    th,td {
+      padding: 5px;
+      width: 300px;
+      }
+
+    input {
+      font-family:"Montserrat", sans-serif;
+      border-radius: 15px;
+      border: 1px dashed #ad9e9e;
+      width: 200px;
+      height: 10px;
+      padding: 10px;
+    }
+
+/* containers */
+#content{
+	position:absolute;
+	margin: auto;
+	background-color: #FFFFFF;
+}
+
+/*left*/
+
+.sidebar {
+	border-right-color: #5c913b;
+	border: 2px dashed;
+	background-image: url('image1.jpg');
+  background-size: cover;
+	width: 300px;
+	height: 100%; 
+	overflow:hidden; 
+	position:fixed;
+	text-align:justify;
+	left:0px;
+	top:0px;
+	padding:30px;
+}
+
+
+/*right*/
+
+#table-container{
+	padding-left:300px;
+}
+
+
+#content-tray{
+	padding-left:220px;
+	background-image: url("image2.jpg");
+		background-repeat: no-repeat;
+  		background-attachment: fixed;
+  		background-position: right;
+}
+
+.button-74 {
+  background-color: #f4f6f0;
+  border: 2px solid #384D0C;
+  border-radius: 25px;
+  box-shadow: #384D0C 4px 4px 0 0;
+  color: #384D0C;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 0 18px;
+  line-height: 50px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-74:hover {
+  background-color: #fff;
+}
+
+.button-74:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
+@media (min-width: 768px) {
+  .button-74 {
+    min-width: 200px;
+    padding: 0 25px;
+  }
+}
+
+#demo{
+  width: 600px;
+}
+
+.mt-3 {
+  margin-top: 30px !important;
+}

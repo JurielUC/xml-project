@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Plants Page</title>
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="plants.css">
+    <script src="https://kit.fontawesome.com/b60df13ae0.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div id="content">
+        <div class="sidebar" id="sidebar">
+            <center>
+                <h2>PLANTS</h2>
+                <p><b><i>Click on any content to display the plant information.</i></b></p>
+                <label for="plant_name">Common Name: </label><br> <input type="text" name="pl-common" id="plant_name"><br><br>
+                <label for="plant_scientific">Scientific Name: </label><br> <input type="text" name="pl-sci" id="plant_scientific"><br><br>
+                <label for="plant_zone">Zone: </label><br> <input type="text" name="pl-zone" id="plant_zone"><br><br>
+                <label for="plant_light">Light: </label><br> <input type="text" name="pl-light" id="plant_light"><br><br>
+                <label for="plant_price">Price: </label><br> <input type="text" name="pl-price" id="plant_price"><br><br>
+                <label for="plant_availability">Availability: </label><br> <input type="text" name="pl-avl" id="plant_availability"><br><br>
+                <button class="button-74" role="button" onclick="submitInput();">UPDATE</button><br><br>
+                <button class="button-74" role="button" onclick="addNewPlant();">ADD NEW</button><br><br>
+                <button class="button-74" role="button" onclick="deletePlant();">DELETE</button><br><br>
+            </center>
+        </div>
+    </div>
+    <div id="table-container">
+        <div id="content-tray">
+            <br>
+            <table id='demo'></table>
+            <script>
+                var x, xmlhttp, xmlDoc;
+                xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("GET", "plant_catalog.xml", false);
+                xmlhttp.send();
+                xmlDoc = xmlhttp.responseXML;
+                x = xmlDoc.getElementsByTagName("PLANT");
+
+                // -- T A B L E  L A Y O U T -- //
+                table = "<tr><th>COMMON NAME</th><th>SCIENTIFIC NAME</th><th>ZONE</th><th>LIGHT</th><th>PRICE</th><th>AVAILABILITY</th></tr>";
+                for (i = 0; i < x.length; i++) {
+                    table += "<tr onclick='displayBookDetails(" + i + ")'><td>";
+                    table += x[i].getElementsByTagName("COMMON")[0].childNodes[0].nodeValue;
+                    table += "</td><td>";
+                    table += x[i].getElementsByTagName("BOTANICAL")[0].childNodes[0].nodeValue;
+                    table += "</td><td>";
+                    table += x[i].getElementsByTagName("ZONE")[0].childNodes[0].nodeValue;
+                    table += "</td><td>";
+                    table += x[i].getElementsByTagName("LIGHT")[0].childNodes[0].nodeValue;
+                    table += "</td><td>";
+                    table += x[i].getElementsByTagName("PRICE")[0].childNodes[0].nodeValue;
+                    table += "</td><td>";
+                    table += x[i].getElementsByTagName("AVAILABILITY")[0].childNodes[0].nodeValue;
+                    table += "</td></tr>";
+                }
+                document.getElementById("demo").innerHTML = table; //submit content of demo to table
+
+                var table = document.getElementById('demo'), rowidx;
+
+                for (var i = 1; i < table.rows.length; i++) {
+                    table.rows[i].onclick = function () {
+                        rowidx = this.rowIndex;
+                        document.getElementById("plant_name").value = this.cells[0].innerHTML;
+                        document.getElementById("plant_scientific").value = this.cells[1].innerHTML;
+                        document.getElementById("plant_zone").value = this.cells[2].innerHTML;
+                        document.getElementById("plant_light").value = this.cells[3].innerHTML;
+                        document.getElementById("plant_price").value = this.cells[4].innerHTML;
+                        document.getElementById("plant_availability").value = this.cells[5].innerHTML;
+                    };
+                }
+
+                function submitInput() {
+                    var commonName = document.getElementById("plant_name").value;
+                    var scientificName = document.getElementById("plant_scientific").value;
+                    var zone = document.getElementById("plant_zone").value;
+                    var light = document.getElementById("plant_light").value;
+                    var price = document.getElementById("plant_price").value;
+                    var availability = document.getElementById("plant_availability").value;
+
+                    if (commonName === "" && scientificName === "" && zone === "" && light === "" && price === "" && availability === "") {
+                      alert("Please select a plant.");
+                    } else {
+                      // Update table
+                      table.rows[rowidx].cells[0].innerHTML = commonName;
+                      table.rows[rowidx].cells[1].innerHTML = scientificName;
+                      table.rows[rowidx].cells[2].innerHTML = zone;
+                      table.rows[rowidx].cells[3].innerHTML = light;
+                      table.rows[rowidx].cells[4].innerHTML = price;
+                      table.rows[rowidx].cells[5].innerHTML = availability;
+
+                      // Send updated data to server
+                      var xhr = new XMLHttpRequest();
+                      xhr.open("POST", "update_xml.php", true);
+                      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                      xhr.send("action=update&row=" + rowidx + "&common=" + commonName + "&scientific=" + scientificName + "&zone=" + zone + "&light=" + light + "&price=" + price + "&availability=" + availability);
+                    }
+                }
+
+                function addNewPlant() {
+                    var commonName = document.getElementById("plant_name").value;
+                    var scientificName = document.getElementById("plant_scientific").value;
+                    var zone = document.getElementById("plant_zone").value;
+                    var light = document.getElementById("plant_light").value;
+                    var price = document.getElementById("plant_price").value;
+                    var availability = document.getElementById("plant_availability").value;
+
+                    if (commonName === "" && scientificName === "" && zone === "" && light === "" && price === "" && availability === "") {
+                      alert("All fields must be filled out to add a new plant.");
+                    } else {
+                      // Send new plant data to server
+                      var xhr = new XMLHttpRequest();
+                      xhr.open("POST", "update_xml.php", true);
+                      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                      xhr.onreadystatechange = function () {
+                          if (xhr.readyState == 4 && xhr.status == 200) {
+                              // Reload the page after the request is complete
+                              location.reload();
+                          }
+                      };
+                      xhr.send("action=add&common=" + commonName + "&scientific=" + scientificName + "&zone=" + zone + "&light=" + light + "&price=" + price + "&availability=" + availability);
+                    }
+                }
+
+                function deletePlant() {
+                    if (rowidx === undefined) {
+                        alert("No plant selected to delete.");
+                        return;
+                    }
+
+                    // Send row index to server for deletion
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "update_xml.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            // Reload the page after the request is complete
+                            location.reload();
+                        }
+                    };
+                    xhr.send("action=delete&row=" + rowidx);
+
+                    // Remove the row from the table
+                    document.getElementById("demo").deleteRow(rowidx);
+                }
+            </script>
+        </div>
+    </div>
+</body>
+</html>
