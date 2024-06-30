@@ -1,4 +1,4 @@
-## Intructions
+## Instructions
 1. Clone or Download the files
 2. Make sure to save it inside htdocs folder in XAMPP
 3. Run Apache and MySQL on XAMPP
